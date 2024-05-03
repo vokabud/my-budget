@@ -35,7 +35,7 @@ namespace MyBudget.Core.Tests
                 }
             };
 
-            var res = RuleProcessor.Test(rule, transaction, "default");
+            var res = RuleProcessor.Process([rule], transaction, "default");
 
             Assert.True(res == rule.Result.Value);
         }
@@ -69,7 +69,7 @@ namespace MyBudget.Core.Tests
                 }
             };
 
-            var res = RuleProcessor.Test(rule, transaction, "default");
+            var res = RuleProcessor.Process([rule], transaction, "default");
 
             Assert.True(res == transaction.CashbackAmount);
         }
