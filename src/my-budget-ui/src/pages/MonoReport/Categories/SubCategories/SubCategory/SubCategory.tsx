@@ -2,15 +2,15 @@ import React, { FC } from 'react';
 import { Collapse, IconButton, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-import { ICategory } from '../../../types';
+import { ISubCategory } from 'types';
 
-import SubCategories from '../SubCategories';
+import Expenses from '../Expenses';
 
 interface IProps {
-    category: ICategory;
+    subCategory: ISubCategory;
 }
 
-const Category: FC<IProps> = ({ category }) => {
+const SubCategory: FC<IProps> = ({ subCategory }) => {
     const [open, setOpen] = React.useState(false);
 
     const handleClick = () => {
@@ -26,15 +26,15 @@ const Category: FC<IProps> = ({ category }) => {
                     </IconButton>
                 </ListItemIcon>
                 <ListItemText
-                    primary={category.name}
-                    secondary={category.total}
+                    primary={subCategory.name}
+                    secondary={subCategory.total}
                 />
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
-                <SubCategories subCategories={category.subCategories || []} />
+                <Expenses expenses={subCategory.expenses || []} />
             </Collapse>
         </>
     );
 };
 
-export default Category;
+export default SubCategory;

@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Box, List, ListItem, Typography } from '@mui/material';
 
-import { IExpense } from '../../../../types';
+import { IExpense } from 'types';
 
 interface IProps {
     expenses: IExpense[];

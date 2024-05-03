@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { List } from '@mui/material';
 
-import { ICategory } from '../../types';
+import { ICategory } from 'types';
 
 import Category from './Category';
 

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { List } from '@mui/material';
 
-import { ISubCategory } from '../../../types';
+import { ISubCategory } from 'types';
 
 import SubCategory from './SubCategory';
 
