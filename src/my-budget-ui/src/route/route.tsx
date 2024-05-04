@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import MonoReport from 'pages/MonoReport';
-import RulesConfigurator from 'pages/RulesConfigurator';
+import RulesConfiguration from 'pages/RulesConfiguration';
 
 const router = createBrowserRouter([
   {
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/rules',
-    element: <RulesConfigurator />,
+    element: <RulesConfiguration />,
   },
 ]);
 

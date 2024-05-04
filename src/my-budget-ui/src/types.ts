@@ -23,15 +23,31 @@ export interface IExpense {
     details: string;
 }
 
+export enum RuleCondition {
+    Equals = 0,
+    Contains = 1,
+}
+
+export enum RuleResultType {
+    FromValue = 0,
+    FromProperty = 1,
+}
+
 export interface IRule {
-    property: string;
-    condition: string;
+    property: Property;
+    condition: RuleCondition;
     value: number;
     result: IRuleResult;
 }
 
 export interface IRuleResult {
-    type: string;
+    type: RuleResultType;
     value: string;
-    property: string;
+    property: Property;
+}
+
+export enum Property {
+    Details = 'Details',
+    MCC = 'MCC',
+    Currency = 'Currency',
 }
