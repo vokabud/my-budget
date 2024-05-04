@@ -7,7 +7,7 @@ import { IReport } from 'types';
 
 import Categories from './Categories';
 
-const Main: FC = () => {
+const MonoReport: FC = () => {
     const [data, setData] = useState<IReport | null>(null);
 
     const onFileContentHandler = (content: string) => {
@@ -43,4 +43,4 @@ const Main: FC = () => {
     );
 };
 
-export default Main;
+export default MonoReport;
