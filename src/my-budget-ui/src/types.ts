@@ -22,3 +22,16 @@ export interface IExpense {
     transactionAmount: number;
     details: string;
 }
+
+export interface IRule {
+    property: string;
+    condition: string;
+    value: number;
+    result: IRuleResult;
+}
+
+export interface IRuleResult {
+    type: string;
+    value: string;
+    property: string;
+}

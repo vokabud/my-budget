@@ -1,31 +1,22 @@
-import { Box } from "@mui/material";
+import { Paper } from "@mui/material";
 import { FC, ReactNode } from "react";
 
 interface IProps {
-    children: ReactNode;
-    show: boolean;
+  children: ReactNode;
 }
 
 const Section: FC<IProps> = ({
-    children,
-    show
-}) => {
-    if (!show) {
-        return null;
-    }
-
-    return (
-        <Box
-            display={'flex'}
-            alignItems={'center'}
-            border={'1px solid gray'}
-            padding={'10px'}
-            marginTop={'10px'}
-            borderRadius={'5px'}
-        >
-            {children}
-        </Box>
-    );
-}
+  children
+}) => (
+  <Paper
+    style={{
+      padding: '10px',
+      margin: '10px 0'
+    }}
+    elevation={3}
+  >
+    {children}
+  </Paper>
+)
 
 export default Section;
