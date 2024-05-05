@@ -29,7 +29,7 @@ const RulesConfigurator: FC = () => {
       </Section>
       {data.length > 0 && (
         <Section>
-          {data.map((rule, index) => <Rule key={index} rule={rule} />)}
+          {data.map((rule, index) => <Rule key={index} value={rule} />)}
         </Section>
       )}
     </>
