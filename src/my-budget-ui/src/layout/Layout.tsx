@@ -20,7 +20,7 @@ const Layout: FC<IProps> = ({ children }) => {
   return (
     <>
       <AppBar position="static">
-        <Container maxWidth="sm">
+        <Container maxWidth={'md'}>
           <Toolbar>
             {menuItems.map((menuItem) => (
               <Button key={menuItem.label} color="inherit" href={menuItem.link}>
@@ -30,7 +30,7 @@ const Layout: FC<IProps> = ({ children }) => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Container maxWidth="sm">
+      <Container maxWidth={'md'}>
         {children}
       </Container>
     </>

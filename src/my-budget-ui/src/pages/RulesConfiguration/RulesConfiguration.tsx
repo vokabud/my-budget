@@ -21,7 +21,7 @@ const RulesConfigurator: FC = () => {
   }
 
   return (
-    <Container>
+    <>
       <Section>
         <FlexRow>
           <FileLoader onFileContent={onFileContentHandler} />
@@ -32,7 +32,7 @@ const RulesConfigurator: FC = () => {
           {data.map((rule, index) => <Rule key={index} rule={rule} />)}
         </Section>
       )}
-    </Container>
+    </>
   );
 };
 

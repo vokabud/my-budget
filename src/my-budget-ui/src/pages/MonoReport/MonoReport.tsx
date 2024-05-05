@@ -21,7 +21,7 @@ const MonoReport: FC = () => {
   }
 
   return (
-    <Container maxWidth="lg">
+    <>
       <Section>
         <FlexRow>
           <FileLoader onFileContent={onFileContentHandler} />
@@ -44,7 +44,7 @@ const MonoReport: FC = () => {
           </Section>
         </>
       )}
-    </Container>
+    </>
   );
 };
 
