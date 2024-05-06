@@ -7,6 +7,7 @@ import {
   RuleCondition,
   RuleResultType,
 } from 'types';
+import Condition from './Condition/Condition';
 
 interface IProps {
   value: IRule;
@@ -76,39 +77,15 @@ const Rule: FC<IProps> = ({ value }) => {
         If property {Property[rule.property]} is {RuleCondition[rule.condition]}  {rule.value} then set {RuleResultType[rule.result.type]} to {rule.result.value} for property {Property[rule.result.property]}
       </Typography>
       <Box>
-        <Select
-          variant={'standard'}
-          value={rule.property}
-          onChange={handlePropertyChange}
-        >
-          <MenuItem value={Property.Currency}>Currency</MenuItem>
-          <MenuItem value={Property.Details}>Details</MenuItem>
-          <MenuItem value={Property.MCC}>MCC</MenuItem>
-        </Select>
-
-        <Select
-          variant={'standard'}
-          value={RuleCondition[rule.condition]}
-          onChange={handleConditionChange}
-        >
-          <MenuItem value={RuleCondition[RuleCondition.Contains]}>Contains</MenuItem>
-          <MenuItem value={RuleCondition[RuleCondition.Equals]}>Equals</MenuItem>
-        </Select>
-
-        <TextField
-          value={rule.value}
-          variant={'standard'}
-          onChange={handleValueChange}
-        />
-
-        <Select
+        <Condition value={rule} />
+        {/* <Select
           variant={'standard'}
           value={RuleResultType[rule.result.type]}
           onChange={handleResultTypeChange}
         >
           <MenuItem value={RuleResultType[RuleResultType.FromProperty]}>to property</MenuItem>
           <MenuItem value={RuleResultType[RuleResultType.FromValue]}>to value</MenuItem>
-        </Select>
+        </Select> */}
 
       </Box>
     </>
