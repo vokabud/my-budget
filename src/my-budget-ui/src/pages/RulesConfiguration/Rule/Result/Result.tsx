@@ -4,7 +4,6 @@ import { FC, useEffect, useState } from 'react';
 import {
   IRule,
   Property,
-  RuleCondition,
   RuleResultType,
 } from 'types';
 
