@@ -8,6 +8,7 @@ import {
   RuleResultType,
 } from 'types';
 import Condition from './Condition/Condition';
+import Result from './Result/Result';
 
 interface IProps {
   value: IRule;
@@ -78,6 +79,7 @@ const Rule: FC<IProps> = ({ value }) => {
       </Typography>
       <Box>
         <Condition value={rule} />
+        <Result value={rule} />
         {/* <Select
           variant={'standard'}
           value={RuleResultType[rule.result.type]}
