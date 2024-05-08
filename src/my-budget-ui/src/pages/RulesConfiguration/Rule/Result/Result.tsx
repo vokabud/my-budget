@@ -1,5 +1,10 @@
-import { FC, useEffect, useState } from 'react';
-import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { FC } from 'react';
+import {
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material';
 
 import {
   IRule,
@@ -8,46 +13,34 @@ import {
 } from 'types';
 
 interface IProps {
-  value: IRule;
+  rule: IRule;
+  onChange: (rule: IRule) => void;
 }
 
-const Result: FC<IProps> = ({ value }) => {
-  const [rule, setRule] = useState<IRule | null>(null);
-
-  useEffect(() => {
-    setRule(value);
-  }, [value]);
-
+const Result: FC<IProps> = ({ rule, onChange }) => {
   const handlePropertyChange = (event: SelectChangeEvent) => {
-    const property = event.target.value as Property;
-
-    if (property && rule) {
-      setRule({ ...rule, result: { ...rule.result, property: property } });
-    }
+    onChange({
+      ...rule,
+      result: { ...rule.result, property: event.target.value as Property }
+    });
   };
 
   const hanleTypeChange = (event: SelectChangeEvent) => {
-    const type = event.target.value;
+    const type: RuleResultType = event.target.value == RuleResultType[RuleResultType.FromValue]
+      ? RuleResultType.FromValue
+      : RuleResultType.FromProperty;
 
-    if (type && rule) {
-      setRule({
-        ...rule,
-        result: {
-          ...rule.result,
-          type: type == RuleResultType[RuleResultType.FromValue]
-            ? RuleResultType.FromValue
-            : RuleResultType.FromProperty
-        }
-      });
-    }
+    const property: Property = Property.Details;
+    const value: string = 'Category';
+
+    onChange({ ...rule, result: { type: type, property: property, value: value } });
   };
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-
-    if (value && rule) {
-      setRule({ ...rule, result: { ...rule.result, value: value } });
-    }
+    onChange({
+      ...rule,
+      result: { ...rule.result, value: event.target.value }
+    });
   }
 
   if (rule === null) {

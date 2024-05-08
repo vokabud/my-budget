@@ -6,31 +6,29 @@ import Condition from './Condition';
 import Result from './Result';
 
 interface IProps {
-  value: IRule;
+  rule: IRule;
+  onChange: (rule: IRule) => void;
 }
 
-const Rule: FC<IProps> = ({ value }) => {
-  const [rule, setRule] = useState<IRule | null>(null);
-
-  useEffect(() => {
-    setRule(value);
-  }, [value]);
+const Rule: FC<IProps> = ({ rule, onChange }) => {
 
   if (rule === null) {
     return null;
   }
 
   return (
-    <Box marginTop={'10px'}>
-      <Typography display={'inline'}>
-        If
-      </Typography>
-      <Condition value={rule} />
-      <Typography display={'inline'} marginLeft={'10px'}>
-        , then
-      </Typography>
-      <Result value={rule} />
-    </Box>
+    <>
+      <Box marginTop={'10px'}>
+        <Typography display={'inline'}>
+          If
+        </Typography>
+        <Condition rule={rule} onChange={onChange} />
+        <Typography display={'inline'} marginLeft={'10px'}>
+          , then
+        </Typography>
+        <Result rule={rule} onChange={onChange} />
+      </Box>
+    </>
   );
 };
 

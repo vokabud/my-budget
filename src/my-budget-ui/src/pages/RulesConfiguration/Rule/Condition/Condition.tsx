@@ -1,5 +1,10 @@
-import { FC, useEffect, useState } from 'react';
-import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { FC } from 'react';
+import {
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material';
 
 import {
   IRule,
@@ -8,21 +13,16 @@ import {
 } from 'types';
 
 interface IProps {
-  value: IRule;
+  rule: IRule;
+  onChange: (rule: IRule) => void;
 }
 
-const Condition: FC<IProps> = ({ value }) => {
-  const [rule, setRule] = useState<IRule | null>(null);
-
-  useEffect(() => {
-    setRule(value);
-  }, [value]);
-
+const Condition: FC<IProps> = ({ rule, onChange }) => {
   const handlePropertyChange = (event: SelectChangeEvent) => {
     const property = event.target.value as Property;
 
     if (property && rule) {
-      setRule({ ...rule, property: property });
+      onChange({ ...rule, property: property });
     }
   };
 
@@ -30,7 +30,7 @@ const Condition: FC<IProps> = ({ value }) => {
     const condition = event.target.value;
 
     if (condition && rule) {
-      setRule({
+      onChange({
         ...rule,
         condition: condition == RuleCondition[RuleCondition.Contains]
           ? RuleCondition.Contains
@@ -43,7 +43,7 @@ const Condition: FC<IProps> = ({ value }) => {
     const value = event.target.value;
 
     if (value && rule) {
-      setRule({ ...rule, value: value });
+      onChange({ ...rule, value: value });
     }
   }
 

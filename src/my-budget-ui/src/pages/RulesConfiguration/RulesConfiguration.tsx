@@ -20,6 +20,12 @@ const RulesConfigurator: FC = () => {
     }
   }
 
+  const onRuleChangeHandler = (id: number, rule: IRule) => {
+    const updatedData = [...data];
+    updatedData[id] = rule;
+    setData(updatedData);
+  }
+
   return (
     <>
       <Section>
@@ -29,9 +35,18 @@ const RulesConfigurator: FC = () => {
       </Section>
       {data.length > 0 && (
         <Section>
-          {data.map((rule, index) => <Rule key={index} value={rule} />)}
+          {data.map((rule, index) => (
+            <Rule
+              key={index}
+              rule={rule}
+              onChange={(rule: IRule) => onRuleChangeHandler(index, rule)}
+            />
+          ))}
         </Section>
       )}
+      <Section>
+        {JSON.stringify(data)}
+      </Section>
     </>
   );
 };
