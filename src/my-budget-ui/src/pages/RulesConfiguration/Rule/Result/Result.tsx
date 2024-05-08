@@ -1,5 +1,5 @@
-import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
+import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 
 import {
   IRule,
@@ -57,6 +57,7 @@ const Result: FC<IProps> = ({ value }) => {
   return (
     <>
       <Select
+        style={{ width: '20%', marginLeft: '10px' }}
         variant={'standard'}
         value={RuleResultType[rule.result.type]}
         onChange={hanleTypeChange}
@@ -66,6 +67,7 @@ const Result: FC<IProps> = ({ value }) => {
       </Select>
       {rule.result.type === RuleResultType.FromValue && (
         <TextField
+          style={{ width: '20%', marginLeft: '10px' }}
           value={rule.result.value}
           variant={'standard'}
           onChange={handleValueChange}
@@ -73,6 +75,7 @@ const Result: FC<IProps> = ({ value }) => {
       )}
       {rule.result.type === RuleResultType.FromProperty && (
         <Select
+          style={{ width: '20%', marginLeft: '10px' }}
           variant={'standard'}
           value={rule.result.property}
           onChange={handlePropertyChange}

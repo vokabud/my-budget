@@ -1,5 +1,5 @@
-import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
+import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 
 import {
   IRule,
@@ -54,16 +54,18 @@ const Condition: FC<IProps> = ({ value }) => {
   return (
     <>
       <Select
+        style={{ width: '15%', marginLeft: '10px' }}
         variant={'standard'}
         value={rule.property}
         onChange={handlePropertyChange}
       >
-        <MenuItem value={Property.Currency}>If Currency</MenuItem>
-        <MenuItem value={Property.Details}>If Details</MenuItem>
-        <MenuItem value={Property.MCC}>If MCC</MenuItem>
+        <MenuItem value={Property.Currency}>Currency</MenuItem>
+        <MenuItem value={Property.Details}>Details</MenuItem>
+        <MenuItem value={Property.MCC}>MCC</MenuItem>
       </Select>
 
       <Select
+        style={{ width: '15%', marginLeft: '10px' }}
         variant={'standard'}
         value={RuleCondition[rule.condition]}
         onChange={handleConditionChange}
@@ -73,6 +75,7 @@ const Condition: FC<IProps> = ({ value }) => {
       </Select>
 
       <TextField
+        style={{ width: '15%', marginLeft: '10px' }}
         value={rule.value}
         variant={'standard'}
         onChange={handleValueChange}

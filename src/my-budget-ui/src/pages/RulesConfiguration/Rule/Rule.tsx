@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 
 import { IRule } from 'types';
@@ -21,8 +21,14 @@ const Rule: FC<IProps> = ({ value }) => {
   }
 
   return (
-    <Box>
+    <Box marginTop={'10px'}>
+      <Typography display={'inline'}>
+        If
+      </Typography>
       <Condition value={rule} />
+      <Typography display={'inline'} marginLeft={'10px'}>
+        , then
+      </Typography>
       <Result value={rule} />
     </Box>
   );
