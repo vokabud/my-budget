@@ -1,4 +1,4 @@
-import { Container, Typography } from '@mui/material';
+import { Button, Container, Typography } from '@mui/material';
 import { FC, useState } from 'react';
 
 import FileLoader from 'common/FileLoader';
@@ -48,6 +48,21 @@ const RulesConfigurator: FC = () => {
     });
   }
 
+  const saveDataToJson = () => {
+    if (!data) {
+      return;
+    }
+
+    const dataStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rules.json';
+    a.click();
+  }
+
   return (
     <>
       <Section>
@@ -84,7 +99,9 @@ const RulesConfigurator: FC = () => {
         </>
       )}
       <Section>
-        {JSON.stringify(data)}
+        <Button variant="contained" color="primary" onClick={saveDataToJson}>
+          Save Data to JSON
+        </Button>
       </Section>
     </>
   );
