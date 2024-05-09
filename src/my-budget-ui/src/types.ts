@@ -51,3 +51,8 @@ export enum Property {
     MCC = 'MCC',
     Currency = 'Currency',
 }
+
+export interface IRules {
+    categories: IRule[];
+    subCategories: IRule[];
+}
