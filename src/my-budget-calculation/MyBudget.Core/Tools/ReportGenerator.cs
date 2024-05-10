@@ -9,15 +9,12 @@ namespace MyBudget.Core.Tools;
 
 public class ReportGenerator
 {
-    private readonly Rule[] _categoryRules;
-    private readonly Rule[] _subCategoryRules;
+    private readonly Rules _rules;
 
     public ReportGenerator(
-        Rule[] categoryRules,
-        Rule[] subCategoryRules)
+        Rules rules)
     {
-        _categoryRules = categoryRules;
-        _subCategoryRules = subCategoryRules;
+        _rules = rules;
     }
 
     public ExpenseReport Generate(SubGroup[] mmc, List<Transaction> transactions)
@@ -95,8 +92,8 @@ public class ReportGenerator
                 result.Add(new ExpenseDetails
                 {
                     Details = transaction.Details,
-                    Category = RuleProcessor.Process(_categoryRules, transaction, subGroup.Group.Description),
-                    SubCategory = RuleProcessor.Process(_subCategoryRules, transaction, subGroup.FullDescription.Replace(',', ' ')),
+                    Category = RuleProcessor.Process(_rules.Categories, transaction, subGroup.Group.Description),
+                    SubCategory = RuleProcessor.Process(_rules.SubCategories, transaction, subGroup.FullDescription.Replace(',', ' ')),
                     Date = transaction.Date,
                     MCC = transaction.MCC,
                     TransactionAmount =  transaction.TransactionAmount * GetExchangeRate(transaction.ExchangeRate),
