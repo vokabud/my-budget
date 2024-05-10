@@ -8,7 +8,7 @@ var mmcJson = "G:\\Solutions\\my-budget\\MCC.json";
 var categoryRulesJson = "G:\\Solutions\\my-budget\\categoryRules.json";
 var subCategoryRulesJson = "G:\\Solutions\\my-budget\\subCategoryRules.json";
 
-var name = "04_01";
+var name = "04";
 var reportCsv = $"G:\\Solutions\\my-budget\\{name}.csv";
 
 var jsonReader = new JsonReader();
