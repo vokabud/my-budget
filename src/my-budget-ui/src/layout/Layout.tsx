@@ -14,7 +14,7 @@ const Layout: FC<IProps> = ({ children }) => {
   const menuItems = [
     { label: 'Report', link: '/' },
     { label: 'Rules configuration', link: '/rules' },
-    { label: 'MCC', link: '/rules' },
+    { label: 'MCC', link: '/mcc' },
   ];
 
   return (
