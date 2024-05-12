@@ -34,6 +34,20 @@ const RulesConfigurator: FC = () => {
     });
   }
 
+  const onDeleteCategoryRuleHandler = (id: number) => {
+    if (!data) {
+      return;
+    }
+
+    var categories = [...data.categories];
+    categories.splice(id, 1);
+
+    setData({
+      ...data,
+      categories: categories
+    });
+  }
+
   const onSubCategoryRuleChangeHandler = (id: number, rule: IRule) => {
     if (!data) {
       return;
@@ -41,6 +55,20 @@ const RulesConfigurator: FC = () => {
 
     var subCategories = [...data.subCategories];
     subCategories[id] = rule;
+
+    setData({
+      ...data,
+      subCategories: subCategories
+    });
+  }
+
+  const onDeleteSubCategoryRuleHandler = (id: number) => {
+    if (!data) {
+      return;
+    }
+
+    var subCategories = [...data.subCategories];
+    subCategories.splice(id, 1);
 
     setData({
       ...data,
@@ -81,6 +109,7 @@ const RulesConfigurator: FC = () => {
                 key={index}
                 rule={rule}
                 onChange={(rule: IRule) => onCategoryRuleChangeHandler(index, rule)}
+                onDelete={() => onDeleteCategoryRuleHandler(index)}
               />
             ))}
           </Section>
@@ -93,6 +122,7 @@ const RulesConfigurator: FC = () => {
                 key={index}
                 rule={rule}
                 onChange={(rule: IRule) => onSubCategoryRuleChangeHandler(index, rule)}
+                onDelete={() => onDeleteSubCategoryRuleHandler(index)}
               />
             ))}
           </Section>

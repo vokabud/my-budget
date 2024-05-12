@@ -9,9 +9,10 @@ import { Delete } from '@mui/icons-material';
 interface IProps {
   rule: IRule;
   onChange: (rule: IRule) => void;
+  onDelete: () => void;
 }
 
-const Rule: FC<IProps> = ({ rule, onChange }) => {
+const Rule: FC<IProps> = ({ rule, onChange, onDelete }) => {
 
   if (rule === null) {
     return null;
@@ -28,7 +29,7 @@ const Rule: FC<IProps> = ({ rule, onChange }) => {
           , then
         </Typography>
         <Result rule={rule} onChange={onChange} />
-        <IconButton onClick={() => {}} size={'small'}>
+        <IconButton onClick={onDelete} size={'small'}>
           <Delete />
         </IconButton>
       </Box>
