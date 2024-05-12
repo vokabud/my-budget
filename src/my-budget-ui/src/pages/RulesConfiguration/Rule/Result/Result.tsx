@@ -60,7 +60,7 @@ const Result: FC<IProps> = ({ rule, onChange }) => {
       </Select>
       {rule.result.type === RuleResultType.FromValue && (
         <TextField
-          style={{ width: '20%', marginLeft: '10px' }}
+          style={{ width: '15%', marginLeft: '10px' }}
           value={rule.result.value}
           variant={'standard'}
           onChange={handleValueChange}
@@ -68,7 +68,7 @@ const Result: FC<IProps> = ({ rule, onChange }) => {
       )}
       {rule.result.type === RuleResultType.FromProperty && (
         <Select
-          style={{ width: '20%', marginLeft: '10px' }}
+          style={{ width: '15%', marginLeft: '10px' }}
           variant={'standard'}
           value={rule.result.property}
           onChange={handlePropertyChange}

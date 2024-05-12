@@ -1,9 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 
 import { IRule } from 'types';
 import Condition from './Condition';
 import Result from './Result';
+import { Delete } from '@mui/icons-material';
 
 interface IProps {
   rule: IRule;
@@ -27,6 +28,9 @@ const Rule: FC<IProps> = ({ rule, onChange }) => {
           , then
         </Typography>
         <Result rule={rule} onChange={onChange} />
+        <IconButton onClick={() => {}} size={'small'}>
+          <Delete />
+        </IconButton>
       </Box>
     </>
   );
