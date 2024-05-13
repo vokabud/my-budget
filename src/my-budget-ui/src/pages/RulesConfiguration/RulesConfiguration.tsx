@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Container, IconButton, Typography } from '@mui/material';
 import { FC, useState } from 'react';
 
 import FileLoader from 'common/FileLoader';
@@ -7,6 +7,7 @@ import FlexRow from 'common/FlexRow';
 import { IRules, IRule } from 'types';
 
 import Rule from './Rule'
+import { Add } from '@mui/icons-material';
 
 const RulesConfigurator: FC = () => {
   const [data, setData] = useState<IRules | null>(null);
@@ -91,6 +92,14 @@ const RulesConfigurator: FC = () => {
     a.click();
   }
 
+  const addCategoryRuleHandler = () => {
+
+  }
+
+  const addSubcategoryRuleHandler = () => {
+
+  }
+
   return (
     <>
       <Section>
@@ -103,6 +112,9 @@ const RulesConfigurator: FC = () => {
           <Section>
             <Typography variant={'h5'}>
               Categories rules
+              <IconButton onClick={addCategoryRuleHandler} title={'Add category rule'}>
+                <Add />
+              </IconButton>
             </Typography>
             {data.categories.map((rule, index) => (
               <Rule
@@ -116,6 +128,9 @@ const RulesConfigurator: FC = () => {
           <Section>
             <Typography variant={'h5'}>
               Subcategories rules
+              <IconButton onClick={addSubcategoryRuleHandler} title={'Add sub-category rule'}>
+                <Add />
+              </IconButton>
             </Typography>
             {data.subCategories.map((rule, index) => (
               <Rule
