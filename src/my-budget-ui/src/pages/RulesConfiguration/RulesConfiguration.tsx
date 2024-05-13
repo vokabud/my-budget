@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import FileLoader from 'common/FileLoader';
 import Section from 'common/Section';
 import FlexRow from 'common/FlexRow';
-import { IRules, IRule } from 'types';
+import { IRules, IRule, RuleCondition, Property, RuleResultType } from 'types';
 
 import Rule from './Rule'
 import { Add } from '@mui/icons-material';
@@ -93,10 +93,47 @@ const RulesConfigurator: FC = () => {
   }
 
   const addCategoryRuleHandler = () => {
+    if (!data) {
+      return;
+    }
 
+    const newRule: IRule = {
+      condition: RuleCondition.Equals,
+      property: Property.Details,
+      value: '',
+      result: {
+        property: Property.Details,
+        type: RuleResultType.FromValue,
+        value: 'My category'
+      }
+    }
+
+    setData({
+      ...data,
+      categories: [...data.categories, newRule]
+    });
   }
 
   const addSubcategoryRuleHandler = () => {
+    if (!data) {
+      return;
+    }
+
+    const newRule: IRule = {
+      condition: RuleCondition.Equals,
+      property: Property.Details,
+      value: '',
+      result: {
+        property: Property.Details,
+        type: RuleResultType.FromValue,
+        value: 'My category'
+      }
+    }
+
+    setData({
+      ...data,
+      subCategories: [...data.categories, newRule]
+    });
 
   }
 
