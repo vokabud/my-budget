@@ -1,5 +1,7 @@
 import { Button, Container, IconButton, Typography } from '@mui/material';
 import { FC, useState } from 'react';
+import ReactDOM from "react-dom";
+import { DragDropContext, Droppable, Draggable, DropResult, ResponderProvided } from 'react-beautiful-dnd';
 
 import FileLoader from 'common/FileLoader';
 import Section from 'common/Section';
@@ -169,14 +171,53 @@ const RulesConfigurator: FC = () => {
                 <Add />
               </IconButton>
             </Typography>
-            {data.subCategories.map((rule, index) => (
+            <DragDropContext onDragEnd={(result: DropResult, provided: ResponderProvided) => {
+              console.log(result);
+              console.log(provided);
+             }}>
+              <Droppable droppableId="droppable">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    style={{ backgroundColor: 'green', border: '1px solid red' }}
+                  >
+                    {data.subCategories.map((rule, index) => (
+                      <Draggable
+                        key={index}
+                        draggableId={index.toString()}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                            style={{ backgroundColor: 'yellow', border: '1px solid black', margin: '10px'}}
+                          >
+                            test
+                            {/* <Rule
+                              rule={rule}
+                              onChange={(rule: IRule) => onSubCategoryRuleChangeHandler(index, rule)}
+                              onDelete={() => onDeleteSubCategoryRuleHandler(index)}
+                            /> */}
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+            {/* {data.subCategories.map((rule, index) => (
               <Rule
                 key={index}
                 rule={rule}
                 onChange={(rule: IRule) => onSubCategoryRuleChangeHandler(index, rule)}
                 onDelete={() => onDeleteSubCategoryRuleHandler(index)}
               />
-            ))}
+            ))} */}
           </Section>
         </>
       )}
