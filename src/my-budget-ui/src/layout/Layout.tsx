@@ -15,6 +15,7 @@ const Layout: FC<IProps> = ({ children }) => {
     { label: 'Report', link: '/' },
     { label: 'Rules configuration', link: '/rules' },
     { label: 'MCC', link: '/mcc' },
+    { label: 'Expense report', link: '/expense-report' },
   ];
 
   return (
