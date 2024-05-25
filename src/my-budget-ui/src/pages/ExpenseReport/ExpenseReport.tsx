@@ -21,6 +21,30 @@ const INITIAL_LIST = [
   },
 ];
 
+const Item = ({ index, item }: { index: number, item: any }) => (
+  <Draggable index={index} draggableId={item.id}>
+    {(provided, snapshot) => (
+      <div
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        style={{
+          // default item style
+          padding: '8px 16px',
+          // default drag style
+          ...provided.draggableProps.style,
+          // customized drag style
+          background: snapshot.isDragging
+            ? 'pink'
+            : 'transparent',
+        }}
+      >
+        {item.firstName} {item.lastName}
+      </div>
+    )}
+  </Draggable>
+);
+
 const ExpenseReport: FC = () => {
   const [list, setList] = useState(INITIAL_LIST);
 
@@ -35,39 +59,26 @@ const ExpenseReport: FC = () => {
 
     setList(items);
   };
-//https://www.robinwieruch.de/react-drag-and-drop/
+  //https://www.robinwieruch.de/react-drag-and-drop/
   return (
     <Section>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              style={{
+               // minHeight: '500px',
+               // border: '1px solid black',
+                background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey',
+                borderRadius: snapshot.isDraggingOver ? '16px' : '0px',
+              }}
+            >
               {list.map((item, index) => (
-                <Draggable
-                  index={index}
-                  draggableId={item.id}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={{
-                        // default item style
-                        padding: '8px 16px',
-                        // default drag style
-                        ...provided.draggableProps.style,
-                        // customized drag style
-                        background: snapshot.isDragging
-                          ? 'pink'
-                          : 'transparent',
-                      }}
-                    >
-                      {item.firstName} {item.lastName}
-                    </div>
-                  )}
-                </Draggable>
+                <Item key={item.id} index={index} item={item} />
               ))}
+              {provided.placeholder}
             </div>
           )}
         </Droppable>

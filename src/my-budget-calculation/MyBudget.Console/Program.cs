@@ -7,7 +7,7 @@ Console.WriteLine("Start");
 var mmcJson = "G:\\Solutions\\my-budget\\MCC.json";
 var rulesJson = "G:\\Solutions\\my-budget\\rules.json";
 
-var name = "04";
+var name = "05_25";
 var reportCsv = $"G:\\Solutions\\my-budget\\{name}.csv";
 
 var jsonReader = new JsonReader();
