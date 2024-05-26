@@ -27,7 +27,6 @@ const Item = ({ index, item }: { index: number, item: any }) => (
       <div
         ref={provided.innerRef}
         {...provided.draggableProps}
-        {...provided.dragHandleProps}
         style={{
           // default item style
           padding: '8px 16px',
@@ -39,6 +38,7 @@ const Item = ({ index, item }: { index: number, item: any }) => (
             : 'transparent',
         }}
       >
+        <div {...provided.dragHandleProps}>DRAG AREA HERE</div>
         {item.firstName} {item.lastName}
       </div>
     )}
