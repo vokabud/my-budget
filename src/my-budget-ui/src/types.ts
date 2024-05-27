@@ -34,6 +34,7 @@ export enum RuleResultType {
 }
 
 export interface IRule {
+    id: string;
     property: Property;
     condition: RuleCondition;
     value: string;
