@@ -54,11 +54,7 @@ const Rule: FC<IProps> = ({
           ref={provided.innerRef}
           {...provided.draggableProps}
           style={{
-            // default item style
-            padding: '8px 16px',
-            // default drag style
             ...provided.draggableProps.style,
-            // customized drag style
             background: snapshot.isDragging
               ? 'pink'
               : 'transparent',

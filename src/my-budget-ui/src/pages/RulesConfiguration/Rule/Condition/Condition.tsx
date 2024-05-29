@@ -65,7 +65,7 @@ const Condition: FC<IProps> = ({ rule, onChange }) => {
       </Select>
 
       <Select
-        style={{ width: '15%', marginLeft: '10px' }}
+        style={{ width: '10%', marginLeft: '10px' }}
         variant={'standard'}
         value={RuleCondition[rule.condition]}
         onChange={handleConditionChange}

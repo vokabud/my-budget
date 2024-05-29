@@ -1,4 +1,4 @@
-import { Button, IconButton, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { FC, useState } from 'react';
 
@@ -8,7 +8,7 @@ import FlexRow from 'common/FlexRow';
 import { IRules, IRule, RuleCondition, Property, RuleResultType } from 'types';
 
 import Rule from './Rule'
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
 
 const RulesConfigurator: FC = () => {
   const [data, setData] = useState<IRules | null>(null);
@@ -139,6 +139,25 @@ const RulesConfigurator: FC = () => {
     });
   }
 
+  const onDragEnd: OnDragEndResponder = (result) => {
+    if (!result.destination) {
+      return;
+    }
+
+    if (!data) {
+      return;
+    }
+
+    const items = Array.from(data.subCategories);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setData({
+      ...data,
+      subCategories: items
+    });
+  }
+
   return (
     <>
       <Section>
@@ -166,7 +185,7 @@ const RulesConfigurator: FC = () => {
             ))} */}
           </Section>
           <Section>
-            <DragDropContext onDragEnd={() => { }}>
+            <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="droppable">
 
                 {(provided, snapshot) => (
@@ -174,10 +193,10 @@ const RulesConfigurator: FC = () => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     style={{
-                      // minHeight: '500px',
-                      // border: '1px solid black',
-                      background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey',
-                      borderRadius: snapshot.isDraggingOver ? '16px' : '0px',
+                      padding: '10px',
+                      border: snapshot.isDraggingOver
+                        ? '1px solid lightgrey '
+                        : '1px solid transparent',
                     }}
                   >
                     {data.subCategories.map((rule, index) => (
