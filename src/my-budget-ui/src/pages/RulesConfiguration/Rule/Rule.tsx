@@ -50,7 +50,6 @@ const Rule: FC<IProps> = ({
     <Draggable index={index} draggableId={rule.id}>
       {(provided, snapshot) => (
         <Box
-          marginTop={'10px'}
           ref={provided.innerRef}
           {...provided.draggableProps}
           style={{
@@ -82,28 +81,3 @@ const Rule: FC<IProps> = ({
 };
 
 export default Rule;
-
-
-const Item = ({ index, item }: { index: number, item: any }) => (
-  <Draggable index={index} draggableId={item.id}>
-    {(provided, snapshot) => (
-      <div
-        ref={provided.innerRef}
-        {...provided.draggableProps}
-        style={{
-          // default item style
-          padding: '8px 16px',
-          // default drag style
-          ...provided.draggableProps.style,
-          // customized drag style
-          background: snapshot.isDragging
-            ? 'pink'
-            : 'transparent',
-        }}
-      >
-        <div {...provided.dragHandleProps}>DRAG AREA HERE</div>
-        {item.firstName} {item.lastName}
-      </div>
-    )}
-  </Draggable>
-);

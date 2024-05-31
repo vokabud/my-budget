@@ -148,14 +148,29 @@ const RulesConfigurator: FC = () => {
       return;
     }
 
-    const items = Array.from(data.subCategories);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+    console.log(result);
 
+    const items = [...data.subCategories];
+    const reorderedItem = items.splice(result.source.index, 1);
+
+    items.splice(result.destination.index, 0, reorderedItem[0]);
+    console.log(items);
     setData({
       ...data,
-      subCategories: items
+      subCategories: [...items]
     });
+
+
+    return;
+
+    // const items = Array.from(data.subCategories);
+    // const [reorderedItem] = items.splice(result.source.index, 1);
+    // items.splice(result.destination.index, 0, reorderedItem);
+
+    // setData({
+    //   ...data,
+    //   subCategories: items
+    // });
   }
 
   return (
@@ -186,30 +201,32 @@ const RulesConfigurator: FC = () => {
           </Section>
           <Section>
             <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="droppable">
-
-                {(provided, snapshot) => (
-                  <div
+              <Droppable
+                droppableId="droppable"
+                direction={'vertical'}
+              >
+                {(provided) => (
+                  <Box
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     style={{
                       padding: '10px',
-                      border: snapshot.isDraggingOver
-                        ? '1px solid lightgrey '
-                        : '1px solid transparent',
+                      // border: snapshot.isDraggingOver
+                      //   ? '1px solid lightgrey '
+                      //   : '1px solid transparent',
                     }}
                   >
                     {data.subCategories.map((rule, index) => (
                       <Rule
-                        key={index}
-                        rule={rule}
+                        key={rule.id}
                         index={index}
+                        rule={rule}
                         onChange={(rule: IRule) => onSubCategoryRuleChangeHandler(index, rule)}
                         onDelete={() => onDeleteSubCategoryRuleHandler(index)}
                       />
                     ))}
                     {provided.placeholder}
-                  </div>
+                  </Box>
                 )}
               </Droppable>
             </DragDropContext>
