@@ -10,7 +10,11 @@
 ### MyBudget.Core (Domain Layer)
 Contains all business logic and data models:
 - **Models** - POCOs for transactions, rules, MMC groups, report structures
-- **Tools** - Reusable services that operate on models (JSON I/O, CSV parsing, rule processing, report generation)
+- **Tools** - Reusable services that operate on models (JSON I/O, CSV parsing, rule processing, report generation, PDF parsing experiments)
+
+### MyBudget.Core.Tests (Test Layer)
+- xUnit test project for core logic and parser-related experiments
+- References `MyBudget.Core`
 
 ### MyBudget.UI (React Frontend)
 The UI is a single‑page application built with React and TypeScript.
@@ -25,10 +29,11 @@ The UI is a single‑page application built with React and TypeScript.
 | Layer / Module | Primary Responsibility | Key Dependencies |
 |----------------|------------------------|------------------|
 | **MyBudget.Console** | CLI entry point | *MyBudget.Core* – references `ReportGenerator`, `JsonReader`, `BankReportReader`. Uses Spectre.Console for UI. |
-| **MyBudget.Core** | Domain logic & data‑model definitions | • `System.Text.Json` (for JSON serialization/deserialization).<br>• `MyBudget.Core.Models.*` – all tools reference the model classes they manipulate. |
+| **MyBudget.Core** | Domain logic & data‑model definitions | • `System.Text.Json` (for JSON serialization/deserialization).<br>• `itext` and `PdfSharpCore` (PDF parsing experiments).<br>• `MyBudget.Core.Models.*` – all tools reference the model classes they manipulate. |
 | **Models** | Pure data contracts | No external dependencies; only used by Tools. |
 | **Tools** | Business logic operations | • `MyBudget.Core.Models.*` (all models).<br>• `System.Linq`, `System.Globalization`, `System.Text.Json`. |
 | **MyBudget.UI** | React frontend | • `react`, `react-dom`, `react-router-dom`.<br>• TypeScript types and JSX support. |
+| **MyBudget.Core.Tests** | Test coverage for core behavior | • `xunit`, `Microsoft.NET.Test.Sdk`, `coverlet.collector`. |
 
 ## Coupling Analysis
 
@@ -44,8 +49,8 @@ The UI is a single‑page application built with React and TypeScript.
    - Uses `System.Linq.Expressions` to construct predicates at runtime. This introduces a moderate level of complexity but keeps rule evaluation flexible.
 
 4. **Minimal cross‑project dependencies**
-   - Only two projects exist (`MyBudget.Console`, `MyBudget.Core`).  
-   - No third‑party libraries are used inside the core, except for JSON handling and LINQ.
+   - The calculation solution contains three projects (`MyBudget.Console`, `MyBudget.Core`, `MyBudget.Core.Tests`).  
+   - `MyBudget.Core` remains mostly framework-based, but currently includes third-party PDF-related packages (`itext`, `PdfSharpCore`) in addition to JSON and LINQ usage.
 
 5. **Potential areas to reduce coupling**
    - Extract a dedicated *Domain* project containing only models; let Tools reference Domain instead of Core.  
@@ -53,5 +58,5 @@ The UI is a single‑page application built with React and TypeScript.
 
 ## Summary
 
-The solution follows a clean separation between **UI** (`MyBudget.Console`), **domain logic** (`MyBudget.Core`), and a **React frontend** (`MyBudget.UI`).  
-All business rules, data parsing, and report generation are encapsulated within the core, which depends only on .NET base libraries and its own model definitions. The coupling is primarily *model‑centric*—tools depend heavily on the data contracts they manipulate—which is acceptable for a small project but could be refined with interfaces or a dedicated domain layer if scalability becomes an issue.
+The solution follows a clean separation between **CLI UI** (`MyBudget.Console`), **domain logic** (`MyBudget.Core`), **tests** (`MyBudget.Core.Tests`), and a separate **React frontend** (`MyBudget.UI`).  
+Most business rules, data parsing, and report generation are encapsulated within the core. Coupling is primarily *model‑centric*—tools depend heavily on the data contracts they manipulate—which is acceptable for a small project but could be refined with interfaces or a dedicated domain layer if scalability becomes an issue.
