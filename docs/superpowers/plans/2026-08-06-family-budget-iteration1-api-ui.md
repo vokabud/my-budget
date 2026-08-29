@@ -6,7 +6,9 @@
 
 **Architecture:** Add a new ASP.NET Core API project that references the existing core library, keeps rules in process memory, and uses static MCC data. Update the React MonoReport page from local JSON loading to a two-step API flow: load rules first, then convert CSV and render report using existing components.
 
-**Tech Stack:** .NET 8 (ASP.NET Core Web API, xUnit), existing MyBudget.Core library, React 18 + TypeScript + MUI, multipart/form-data uploads.
+**Tech Stack:** .NET SDK 10.0.400 / .NET 10 (ASP.NET Core Web API, xUnit 2.9.3), existing MyBudget.Core library, React 19.2.8, TypeScript 7.0.2, Vite 8.2.2, Vitest 4.1.11, MUI 9.4.0, multipart/form-data uploads.
+
+**Modernization baseline:** `main` commit `f4b5e6e` (`chore: Upgrade to .NET 10 LTS, React 19.2, Vite 8`). The iteration plan extends that commit and must not reintroduce .NET 8, Create React App, Jest CLI flags, or `react-scripts`.
 
 ## Global Constraints
 
@@ -16,6 +18,9 @@
 - If conversion is requested before rules load, backend returns HTTP 400 with message Load rules first.
 - UI keeps rules state in runtime memory only for iteration 1.
 - Console project is removed from solution and repository in iteration 1.
+- Every new backend project targets `net10.0`; API test packages mirror `MyBudget.Core.Tests`: Microsoft.NET.Test.Sdk 18.9.0, xunit 2.9.3, xunit.runner.visualstudio 4.0.0, and coverlet.collector 10.0.1.
+- Frontend tests run through the existing `npm test` (`vitest run`) script; frontend gates also run `npm run typecheck` and the Vite production build.
+- Vite development proxy configuration belongs in `src/my-budget-ui/vite.config.ts`, not in the removed Create React App `package.json` proxy convention.
 
 ---
 
@@ -59,7 +64,7 @@ Expected: FAIL because API project/tests are not yet wired.
 <!-- File: src/my-budget-calculation/MyBudget.Api/MyBudget.Api.csproj -->
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -334,6 +339,7 @@ git commit -m "feat(api): add synchronous csv conversion endpoint"
 **Files:**
 - Create: `src/my-budget-ui/src/api/client.ts`
 - Create: `src/my-budget-ui/src/api/reportApi.ts`
+- Modify: `src/my-budget-ui/vite.config.ts`
 - Modify: `src/my-budget-ui/src/pages/MonoReport/MonoReport.tsx`
 - Modify: `src/my-budget-ui/src/common/FileLoader/FileLoader.tsx`
 - Modify: `src/my-budget-ui/src/types.ts`
@@ -357,7 +363,7 @@ it("shows load rules first error from backend", async () => { /* ... */ });
 
 - [ ] **Step 2: Run tests to verify failure**
 
-Run: `cd src/my-budget-ui && npm test -- MonoReport.test.tsx --watchAll=false`
+Run: `npm --prefix src/my-budget-ui test -- MonoReport.test.tsx`
 Expected: FAIL because UI logic does not exist.
 
 - [ ] **Step 3: Implement API utilities and update MonoReport state flow**
@@ -374,6 +380,8 @@ export async function convertCsv(file: File): Promise<IReport> { /* POST /api/re
 // - Existing rendering reused when report state is set
 ```
 
+Extend `vite.config.ts` with a development proxy from `/api` to `http://localhost:5080`, preserving the existing React plugin, path resolution, and Vitest configuration.
+
 - [ ] **Step 4: Update FileLoader for reusable file selection**
 
 ```tsx
@@ -389,8 +397,11 @@ Use `onFileSelected` in new API flow and keep `onFileContent` compatibility for 
 
 - [ ] **Step 5: Run UI tests to verify pass**
 
-Run: `cd src/my-budget-ui && npm test -- --watchAll=false`
+Run: `npm --prefix src/my-budget-ui test`
 Expected: PASS for updated MonoReport tests.
+
+Run: `npm --prefix src/my-budget-ui run typecheck`
+Expected: PASS with no TypeScript errors.
 
 - [ ] **Step 6: Commit**
 
@@ -473,7 +484,10 @@ Expected: PASS including API tests and core tests.
 
 - [ ] **Step 3: Run UI tests**
 
-Run: `cd src/my-budget-ui && npm test -- --watchAll=false`
+Run: `npm --prefix src/my-budget-ui test`
+Expected: PASS.
+
+Run: `npm --prefix src/my-budget-ui run typecheck`
 Expected: PASS.
 
 - [ ] **Step 4: Run production build smoke checks**
@@ -481,7 +495,7 @@ Expected: PASS.
 Run: `dotnet build src/my-budget-calculation/MyBudget.sln -c Release`
 Expected: SUCCESS.
 
-Run: `cd src/my-budget-ui && npm run build`
+Run: `npm --prefix src/my-budget-ui run build`
 Expected: SUCCESS.
 
 - [ ] **Step 5: Commit**

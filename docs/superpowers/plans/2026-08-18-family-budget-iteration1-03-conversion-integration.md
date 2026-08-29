@@ -6,7 +6,7 @@
 
 **Architecture:** The API adapter writes the uploaded CSV to a unique temp file because Core is path-only, invokes existing Core types unchanged, and deletes the file in `finally`. An integration test sends both requests through `WebApplicationFactory` without mocking the calculation path.
 
-**Tech Stack:** .NET 8, ASP.NET multipart binding, existing Core.
+**Tech Stack:** .NET SDK 10.0.400, .NET 10, ASP.NET Core multipart binding, existing Core.
 
 **Source specification path:** `docs/superpowers/specs/2026-08-06-family-budget-api-ui-iteration1-design.md`
 

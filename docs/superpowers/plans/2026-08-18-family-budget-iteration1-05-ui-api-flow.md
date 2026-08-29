@@ -6,14 +6,14 @@
 
 **Architecture:** A small fetch client owns transport/error parsing; MonoReport owns runtime-only state. A live smoke script starts the real API and sends the same contract payloads used by the UI, so mocks are not the compatibility proof.
 
-**Tech Stack:** React 18, TypeScript 4.9.5, browser fetch/FormData, CRA/Jest, PowerShell live HTTP smoke.
+**Tech Stack:** React 19.2.8, TypeScript 7.0.2, browser fetch/FormData, Vite 8.2.2, Vitest 4.1.11, PowerShell live HTTP smoke.
 
 **Source specification path:** `docs/superpowers/specs/2026-08-06-family-budget-api-ui-iteration1-design.md`
 
 ## Prerequisites
 
 - Reviewed Plan 04 commit is HEAD and all prior gates pass.
-- Browser API paths are relative `/api/...`. The repository has no proxy configuration, so add exact CRA development proxy `"proxy": "http://localhost:5080"` to `package.json`. Production hosting/reverse-proxy configuration is outside the repository and remains an explicitly unresolved deployment prerequisite; do not invent it. If port 5080 is occupied during the live smoke test, STOP.
+- Browser API paths are relative `/api/...`. Add a Vite development proxy for `/api` to `http://localhost:5080` in `vite.config.ts`; do not add the obsolete CRA `package.json` `proxy` field. Production hosting/reverse-proxy configuration is outside the repository and remains an explicitly unresolved deployment prerequisite; do not invent it. If port 5080 is occupied during the live smoke test, STOP.
 
 ## Exact files to read before editing
 
@@ -24,7 +24,7 @@
 - Create `src/my-budget-ui/src/api/reportApi.ts`, `reportApi.test.ts`
 - Create `src/my-budget-ui/src/pages/MonoReport/MonoReport.test.tsx`
 - Create `scripts/verify-api-ui-contract.ps1`
-- Modify `src/my-budget-ui/package.json`
+- Modify `src/my-budget-ui/vite.config.ts`
 - Modify `src/my-budget-ui/src/pages/MonoReport/MonoReport.tsx`
 - Do not change report interfaces or renderer component signatures unless preflight proves mismatch; any mismatch is a blocker requiring plan revision.
 
@@ -66,21 +66,22 @@ Hard stop: “If this command exits nonzero, STOP immediately. Do not continue t
 
 - [ ] Client tests mock transport only to assert exact URL/method/header/body/FormData key, success return, problem error, and exact plain-text error.
 - [ ] Component tests mock `reportApi` only for UI behavior: two labelled controls; CSV disabled initially; valid rules success status/count enables CSV; rules failure keeps disabled; conversion loading state; success renders exact date range, total, category, then user expands category/subcategory and sees expense; failure shows error and leaves prior report; two sequential CSV uploads invoke conversion twice.
-- [ ] Run focused tests and expect failure for absent module/controls: `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand reportApi.test.ts MonoReport.test.tsx`.
+- [ ] Run focused tests and expect failure for absent module/controls: `npm --prefix src/my-budget-ui test -- reportApi.test.ts MonoReport.test.tsx`.
 
 Hard stop: expected nonzero only at this red step; if it passes, STOP.
 
 - [ ] Implement `reportApi.ts` exact signatures and deterministic error parser.
+- [ ] Extend `vite.config.ts` with `server: { proxy: { '/api': { target: 'http://localhost:5080', changeOrigin: true } } }` while preserving the existing React plugin, TypeScript path resolution, and Vitest `jsdom`/setup configuration.
 - [ ] Implement MonoReport state: `rulesLoaded`, separate `isLoading`, `errorMessage`, `report`; no storage APIs; two FileLoaders labelled `Load rules`/`Convert CSV`, accepts `.json`/`.csv`; because FileLoader lacks `disabled`, render CSV control inside a disabled `<fieldset>` (or add `disabled?: boolean` to FileLoader with a failing FileLoader test and update all consumers in this same plan).
 - [ ] Create smoke script that starts `dotnet run --project src/my-budget-calculation/MyBudget.Api/MyBudget.Api.csproj --urls http://127.0.0.1:5080 --no-build`, waits for health, posts the tracked test fixtures with `Invoke-RestMethod`, asserts exact count and every report level/value, then stops only the recorded process in `finally`. This is the mandatory real cross-boundary HTTP proof; mock tests are supplementary.
 
 ## Focused verification
 
-- [ ] `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand reportApi.test.ts MonoReport.test.tsx`
+- [ ] `npm --prefix src/my-budget-ui test -- reportApi.test.ts MonoReport.test.tsx`
 
 Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
-- [ ] `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand --listTests` and report discovered test files/count; both new files required.
+- [ ] Confirm the focused Vitest output reports both new test files, nonzero executed tests, and zero skipped/failed tests.
 
 Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
@@ -90,7 +91,11 @@ Hard stop: “If this command exits nonzero, STOP immediately. Do not continue t
 
 ## Broader regression
 
-- [ ] `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand`
+- [ ] `npm --prefix src/my-budget-ui test`
+
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+
+- [ ] `npm --prefix src/my-budget-ui run typecheck`
 
 Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
@@ -108,7 +113,7 @@ Hard stop: “If this command exits nonzero, STOP immediately. Do not continue t
 
 ## Commit/handoff
 
-Stage: `git add src/my-budget-ui/src/api src/my-budget-ui/src/pages/MonoReport src/my-budget-ui/package.json scripts/verify-api-ui-contract.ps1`
+Stage: `git add src/my-budget-ui/src/api src/my-budget-ui/src/pages/MonoReport src/my-budget-ui/vite.config.ts scripts/verify-api-ui-contract.ps1`
 
 Commit: `git commit -m "feat(ui): load rules and render converted reports"`
 

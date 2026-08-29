@@ -6,14 +6,14 @@
 
 **Architecture:** ASP.NET Core minimal hosting exposes health and controllers. `WebApplicationFactory<Program>` exercises the in-process HTTP boundary.
 
-**Tech Stack:** .NET 8, ASP.NET Core, xUnit 2.4.2, Microsoft.NET.Test.Sdk 17.6.0.
+**Tech Stack:** .NET SDK 10.0.400, .NET 10, ASP.NET Core, xUnit 2.9.3, Microsoft.NET.Test.Sdk 18.9.0, xunit.runner.visualstudio 4.0.0, coverlet.collector 10.0.1.
 
 **Source specification path:** `docs/superpowers/specs/2026-08-06-family-budget-api-ui-iteration1-design.md`
 
 ## Exact prerequisites
 
 - Run from `G:\Solutions\my-budget-2`.
-- No prerequisite feature commit. Preserve untracked `.clinerules/` and do not stage it.
+- Baseline commit `f4b5e6e` (`chore: Upgrade to .NET 10 LTS, React 19.2, Vite 8`) is present in history. Preserve every pre-existing untracked path and stage only the exact paths in this plan.
 
 ## Exact files to read before editing
 
@@ -61,9 +61,9 @@ Hard stop: “If this command exits nonzero, STOP immediately. Do not continue t
 
 ## Bite-sized TDD steps
 
-- [ ] create the test project a project reference to `..\MyBudget.Api\MyBudget.Api.csproj`. Create `GlobalUsings.cs` containing `global using Xunit;`.
+- [ ] Create the test project targeting `net10.0`, with a project reference to `..\MyBudget.Api\MyBudget.Api.csproj`. Copy the exact test PackageReference versions and asset metadata from `MyBudget.Core.Tests.csproj`, and add `Microsoft.AspNetCore.Mvc.Testing` version `10.0.8` to match the .NET 10.0.8 runtime carried by SDK 10.0.400. Create `GlobalUsings.cs` containing `global using Xunit;`.
 - [ ] Write `ApiSmokeTests.Health_Endpoint_Responds_Ok` using `WebApplicationFactory<Program>`, `GetAsync("/api/health")`, status assertion, and `JsonDocument` assertion that the only named value required is string property `status == "ok"`.
-- [ ] Create `MyBudget.Api.csproj` with `Microsoft.NET.Sdk.Web`, `net8.0`, nullable and implicit usings enabled, and the exact Core project reference.
+- [ ] Create `MyBudget.Api.csproj` with `Microsoft.NET.Sdk.Web`, `net10.0`, nullable and implicit usings enabled, and the exact Core project reference.
 - [ ] Run the focused test and expect failure because `Program`/route is absent: `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj --filter FullyQualifiedName~Health_Endpoint_Responds_Ok -v minimal`.
 
 Hard stop: this command is expected nonzero only at this red step; if it passes, STOP because the test is not proving the new behavior. Otherwise record the expected compile/404 failure and continue.

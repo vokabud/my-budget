@@ -6,7 +6,7 @@
 
 **Architecture:** Singleton stores own process-lifetime state and immutable MCC data. A controller validates the complete rules graph before replacing state.
 
-**Tech Stack:** .NET 8, ASP.NET Core controllers, System.Text.Json, xUnit.
+**Tech Stack:** .NET SDK 10.0.400, .NET 10, ASP.NET Core controllers, System.Text.Json, xUnit 2.9.3.
 
 **Source specification path:** `docs/superpowers/specs/2026-08-06-family-budget-api-ui-iteration1-design.md`
 

@@ -6,7 +6,7 @@
 
 **Architecture:** This plan changes no runtime contract. It deletes the old adapter, removes its solution membership, and aligns documentation with the verified path.
 
-**Tech Stack:** Git, .NET solution CLI, Markdown.
+**Tech Stack:** Git, .NET SDK 10.0.400 solution CLI, React 19.2/Vite 8/Vitest 4 verification commands, Markdown.
 
 **Source specification path:** `docs/superpowers/specs/2026-08-06-family-budget-api-ui-iteration1-design.md`
 
@@ -54,7 +54,11 @@ Hard stop: “If this command exits nonzero, STOP immediately. Do not continue t
 
 Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
-- [ ] `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand`
+- [ ] `npm --prefix src/my-budget-ui test`
+
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+
+- [ ] `npm --prefix src/my-budget-ui run typecheck`
 
 Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
@@ -71,7 +75,7 @@ Hard stop: “If this command exits nonzero, STOP immediately. Do not continue t
 - [ ] Run solution remove command, then delete only the two tracked Console files (and empty directory if Git naturally omits it).
 - [ ] Update root README project list/workflow with exact `dotnet run --project src/my-budget-calculation/MyBudget.Api/MyBudget.Api.csproj --urls http://localhost:5080`, `npm --prefix src/my-budget-ui start`, rules JSON then CSV sequence, and verification commands.
 - [ ] Update architecture analysis to API/controller/service/Core/UI flow and list exact dependencies; remove claims that console is active.
-- [ ] Update UI README with the CRA development proxy, runtime-only rules state, accepted extensions, backend restart behavior, test/build commands, and the unresolved production reverse-proxy prerequisite.
+- [ ] Update UI README with the Vite `/api` development proxy, runtime-only rules state, accepted extensions, backend restart behavior, Vitest/typecheck/build commands, and the unresolved production reverse-proxy prerequisite.
 
 ## Focused verification
 
@@ -105,7 +109,11 @@ Hard stop: “If this command exits nonzero, STOP immediately. Do not continue t
 
 Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
-- [ ] `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand`
+- [ ] `npm --prefix src/my-budget-ui test`
+
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+
+- [ ] `npm --prefix src/my-budget-ui run typecheck`
 
 Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 

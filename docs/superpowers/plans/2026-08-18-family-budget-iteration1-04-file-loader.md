@@ -6,7 +6,7 @@
 
 **Architecture:** One component exposes a discriminated union so exactly one callback mode is selected. Both existing consumers remain type-safe.
 
-**Tech Stack:** React 18, TypeScript 4.9.5, CRA/Jest, Testing Library.
+**Tech Stack:** React 19.2.8, TypeScript 7.0.2, Vite 8.2.2, Vitest 4.1.11, Testing Library 16.3.3 / user-event 14.6.6.
 
 **Source specification path:** `docs/superpowers/specs/2026-08-06-family-budget-api-ui-iteration1-design.md`
 
@@ -54,7 +54,7 @@ Hard stop: “If this command exits nonzero, STOP immediately. Do not continue t
 ## Bite-sized TDD steps
 
 - [ ] Create `FileLoader.test.tsx` with four named, non-skipped tests: JSON upload asserts text callback/content/name; CSV upload with `accept=".csv"` asserts identical File callback/name; custom label renders; default label renders.
-- [ ] Run `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand FileLoader.test.tsx`; expect TypeScript/test failure because `onFileSelected`, `accept`, and `buttonLabel` do not exist.
+- [ ] Run `npm --prefix src/my-budget-ui test -- FileLoader.test.tsx`; expect TypeScript/test failure because `onFileSelected`, `accept`, and `buttonLabel` do not exist.
 
 Hard stop: expected nonzero only at this red step; if it passes, STOP and report why the test did not prove the interface.
 
@@ -63,17 +63,17 @@ Hard stop: expected nonzero only at this red step; if it passes, STOP and report
 
 ## Focused verification
 
-- [ ] `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand --listTests` — report discovered paths and require `FileLoader.test.tsx`.
-
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
-
-- [ ] `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand FileLoader.test.tsx` — report executed/passed count, at least 4.
+- [ ] `npm --prefix src/my-budget-ui test -- FileLoader.test.tsx` — Vitest must report the file and at least four executed/passed tests.
 
 Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Broader regression
 
-- [ ] `npm --prefix src/my-budget-ui test -- --watchAll=false --runInBand`
+- [ ] `npm --prefix src/my-budget-ui test`
+
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+
+- [ ] `npm --prefix src/my-budget-ui run typecheck`
 
 Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 

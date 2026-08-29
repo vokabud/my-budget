@@ -8,6 +8,8 @@
 
 **Source plan corrected by this split:** `docs/superpowers/plans/2026-08-06-family-budget-iteration1-api-ui.md`
 
+**Modernization baseline:** `main` commit `f4b5e6e` (`chore: Upgrade to .NET 10 LTS, React 19.2, Vite 8`). All six plans assume this commit is present.
+
 ## Repository facts and corrections
 
 - Solution: `src/my-budget-calculation/MyBudget.sln`; current members are `MyBudget.Console`, `MyBudget.Core`, and `MyBudget.Core.Tests`.
@@ -19,11 +21,11 @@
 - Rules JSON enums are numeric (`condition`: 0/1, `result.type`: 0/1), matching TypeScript enums and default `System.Text.Json` enum handling. UI-only `IRule.id` is ignored by ASP.NET JSON binding.
 - No API project, API test project, CORS/proxy configuration, CSV/rules fixtures, E2E framework, or frontend tests exist.
 - Existing `PdfParserTests.Test1` uses absolute paths outside this repository and may hang. It is not accepted as a green regression result; any baseline failure must be reported and resolved in scope before proceeding.
-- In this sandbox, CRA test/build worker spawning returned `spawn EPERM`; plans use `--runInBand` for tests. A production build remains mandatory and must pass in the executor's environment.
+- The frontend now uses Vite 8.2.2 and Vitest 4.1.11. CRA/Jest flags such as `--watchAll`, `--runInBand`, and `--listTests` are invalid; plans use Vitest file filters plus `npm run typecheck` and `npm run build`.
 
 ## Global execution rules
 
-1. Start from repository root `G:\Solutions\my-budget-2` and a clean worktree except known user-owned `.clinerules/`; never stage `.clinerules/`.
+1. Start from repository root `G:\Solutions\my-budget-2`, require baseline commit `f4b5e6e` in history, and preserve all pre-existing user-owned untracked files; stage only the exact paths named by the active plan.
 2. Before each plan, verify the prerequisite commit exists with `git log -1 --format=%s` and rerun every listed green command.
 3. The next plan must not start unless the previous commit exists, every gate passed, and an independent verifier reviewed that commit against its plan.
 4. Empty, skipped, placeholder, comment-only, or zero-discovered-test results fail the gate.
@@ -39,8 +41,8 @@
 | 01 | [API solution and test skeleton](2026-08-18-family-budget-iteration1-01-api-skeleton.md) | Clean baseline | `feat(api): add tested API solution skeleton` | API direct build/test; test discovery/count; `dotnet sln ... list`; solution build/test | `Program`, API/API-tests project membership, health route |
 | 02 | [Rules and MCC vertical slice](2026-08-18-family-budget-iteration1-02-rules-mcc.md) | 01 reviewed | `feat(api): load rules into memory with static MCC` | focused rules/MCC tests; API build; API tests; solution tests | rules store/provider and rules endpoint contract |
 | 03 | [Conversion and live HTTP flow](2026-08-18-family-budget-iteration1-03-conversion-integration.md) | 02 reviewed | `feat(api): convert uploaded CSV through live API flow` | focused conversion tests; real load+convert HTTP test; API build/tests; solution tests | canonical API contract and representative fixtures |
-| 04 | [Reusable file selection](2026-08-18-family-budget-iteration1-04-file-loader.md) | 03 reviewed | `refactor(ui): support file selection without breaking rules editor` | test discovery/count; focused FileLoader tests; UI full tests/build | compatible `FileLoaderProps` |
-| 05 | [UI API report flow](2026-08-18-family-budget-iteration1-05-ui-api-flow.md) | 04 reviewed | `feat(ui): load rules and render converted reports` | client/component tests; UI full tests/build; live API contract script; solution tests | complete replacement UI/API path |
+| 04 | [Reusable file selection](2026-08-18-family-budget-iteration1-04-file-loader.md) | 03 reviewed | `refactor(ui): support file selection without breaking rules editor` | focused FileLoader tests; UI full tests/typecheck/build | compatible `FileLoaderProps` |
+| 05 | [UI API report flow](2026-08-18-family-budget-iteration1-05-ui-api-flow.md) | 04 reviewed | `feat(ui): load rules and render converted reports` | client/component tests; UI full tests/typecheck/build; live API contract script; solution tests | complete replacement UI/API path |
 | 06 | [Console cleanup and documentation](2026-08-18-family-budget-iteration1-06-cleanup.md) | 05 reviewed and replacement path green | `refactor: remove console and document API-first workflow` | absence checks; exact solution membership; all backend/UI/live-flow gates | final iteration-1 state |
 
 ## Requirement-to-plan/test map
