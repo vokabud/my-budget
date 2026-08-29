@@ -48,7 +48,7 @@ const FileLoader: FC<IProps> = ({
             >
                 Choose File
             </Button>
-            <Typography ml={'20px'} variant="body1" component="p">{name}</Typography>
+            <Typography sx={{ ml: '20px' }} variant="body1" component="p">{name}</Typography>
         </>
     );
 };

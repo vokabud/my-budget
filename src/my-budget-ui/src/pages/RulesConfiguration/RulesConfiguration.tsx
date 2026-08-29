@@ -5,10 +5,11 @@ import { FC, useState } from 'react';
 import FileLoader from 'common/FileLoader';
 import Section from 'common/Section';
 import FlexRow from 'common/FlexRow';
+import { reorder } from 'common/reorder';
 import { IRules, IRule, RuleCondition, Property, RuleResultType } from 'types';
 
 import Rule from './Rule'
-import { DragDropContext, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, type OnDragEndResponder } from '@hello-pangea/dnd';
 
 const RulesConfigurator: FC = () => {
   const [data, setData] = useState<IRules | null>(null);
@@ -148,29 +149,14 @@ const RulesConfigurator: FC = () => {
       return;
     }
 
-    console.log(result);
-
-    const items = [...data.subCategories];
-    const reorderedItem = items.splice(result.source.index, 1);
-
-    items.splice(result.destination.index, 0, reorderedItem[0]);
-    console.log(items);
     setData({
       ...data,
-      subCategories: [...items]
+      subCategories: reorder(
+        data.subCategories,
+        result.source.index,
+        result.destination.index,
+      ),
     });
-
-
-    return;
-
-    // const items = Array.from(data.subCategories);
-    // const [reorderedItem] = items.splice(result.source.index, 1);
-    // items.splice(result.destination.index, 0, reorderedItem);
-
-    // setData({
-    //   ...data,
-    //   subCategories: items
-    // });
   }
 
   return (

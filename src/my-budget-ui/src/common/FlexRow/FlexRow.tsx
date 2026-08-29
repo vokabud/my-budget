@@ -9,9 +9,11 @@ const FlexRow: FC<IProps> = ({
     children,
 }) => (
     <Box
-        display={'flex'}
-        alignItems={'center'}
-        padding={'10px'}
+        sx={{
+            display: 'flex',
+            alignItems: 'center',
+            padding: '10px',
+        }}
     >
         {children}
     </Box>

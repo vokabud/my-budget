@@ -18,11 +18,11 @@ const Expenses: FC<IProps> = ({ expenses }) => {
         >
             {expenses.sort((a, b) => a.date > b.date ? 1 : 0).map((expens) => (
                 <ListItem key={expens.date} style={{ padding: 0 }}>
-                    <Box width={'100%'} display={'flex'} >
-                        <Typography width={'20%'}>
+                    <Box sx={{ width: '100%', display: 'flex' }}>
+                        <Typography sx={{ width: '20%' }}>
                             {new Date(expens.date).toLocaleString()}
                         </Typography>
-                        <Typography width={'10%'}>
+                        <Typography sx={{ width: '10%' }}>
                             {expens.transactionAmount}
                         </Typography>
                         <Typography>

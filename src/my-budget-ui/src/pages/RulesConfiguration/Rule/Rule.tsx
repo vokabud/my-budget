@@ -5,7 +5,7 @@ import { IRule } from 'types';
 import Condition from './Condition';
 import Result from './Result';
 import { Delete, ImportExport } from '@mui/icons-material';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from '@hello-pangea/dnd';
 
 interface IProps {
   rule: IRule;
@@ -59,11 +59,11 @@ const Rule: FC<IProps> = ({
               : 'transparent',
           }}
         >
-          <Typography display={'inline'}>
+          <Typography sx={{ display: 'inline' }}>
             If
           </Typography>
           <Condition rule={rule} onChange={onChange} />
-          <Typography display={'inline'} marginLeft={'10px'}>
+          <Typography sx={{ display: 'inline', marginLeft: '10px' }}>
             , then
           </Typography>
           <Result rule={rule} onChange={onChange} />

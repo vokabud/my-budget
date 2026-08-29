@@ -1,7 +1,8 @@
 import { FC, useState } from 'react';
-import { DragDropContext, Droppable, OnDragEndResponder, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, Droppable, type OnDragEndResponder } from '@hello-pangea/dnd';
 
 import Section from 'common/Section';
+import { reorder } from 'common/reorder';
 
 const INITIAL_LIST = [
   {
@@ -53,11 +54,7 @@ const ExpenseReport: FC = () => {
       return;
     }
 
-    const items = Array.from(list);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setList(items);
+    setList(reorder(list, result.source.index, result.destination.index));
   };
   //https://www.robinwieruch.de/react-drag-and-drop/
   return (
