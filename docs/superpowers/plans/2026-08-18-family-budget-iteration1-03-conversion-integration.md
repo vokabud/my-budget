@@ -2,6 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans. Complete only this plan and stop for review.
 
+**Version-control rule:** The model must not create commits. Leave all changes uncommitted for the user to review and commit manually.
 **Goal:** Load rules and convert a representative CSV through real HTTP, returning the exact UI report shape.
 
 **Architecture:** The API adapter writes the uploaded CSV to a unique temp file because Core is path-only, invokes existing Core types unchanged, and deletes the file in `finally`. An integration test sends both requests through `WebApplicationFactory` without mocking the calculation path.
@@ -12,7 +13,6 @@
 
 ## Exact prerequisites
 
-- Reviewed Plan 02 commit is HEAD and green.
 ## Exact files to read before editing
 
 - `src/my-budget-calculation/MyBudget.Core/Tools/BankReportReader.cs`
@@ -54,7 +54,7 @@
 
 - [ ] `rg -n "BankReportReader|ImportFromCsv|ReportGenerator|Generate\\(" src/my-budget-calculation -g '*.cs' -g '!**/obj/**'` and list Console plus Core definitions; reopen each definition.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Bite-sized TDD steps
 
@@ -72,39 +72,32 @@ Hard stop: expected nonzero only at this red step; if it passes, STOP. Record ex
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj --filter FullyQualifiedName~ReportsEndpointTests -v normal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet build src/my-budget-calculation/MyBudget.Api/MyBudget.Api.csproj -v minimal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj --list-tests -v normal` and report nonzero discovery and executed count.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Broader regression
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj -v normal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.sln -v normal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `git diff --check`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
-
-## Commit/handoff
-
-Stage: `git add src/my-budget-calculation/MyBudget.Api src/my-budget-calculation/MyBudget.Api.Tests`
-
-Commit: `git commit -m "feat(api): convert uploaded CSV through live API flow"`
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ```text
 Plan: 03 conversion
-Commit/hash:
 Core consumers and exact signatures reopened:
 Focused/API/solution test counts:
 Real HTTP assertions passed:

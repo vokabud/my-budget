@@ -2,6 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans. Complete only this plan and stop for review.
 
+**Version-control rule:** The model must not create commits. Leave all changes uncommitted for the user to review and commit manually.
 **Goal:** Load a rules file, enable CSV conversion only after success, call the API, and render the returned report through existing components.
 
 **Architecture:** A small fetch client owns transport/error parsing; MonoReport owns runtime-only state. A live smoke script starts the real API and sends the same contract payloads used by the UI, so mocks are not the compatibility proof.
@@ -12,7 +13,6 @@
 
 ## Prerequisites
 
-- Reviewed Plan 04 commit is HEAD and all prior gates pass.
 - Browser API paths are relative `/api/...`. Add a Vite development proxy for `/api` to `http://localhost:5080` in `vite.config.ts`; do not add the obsolete CRA `package.json` `proxy` field. Production hosting/reverse-proxy configuration is outside the repository and remains an explicitly unresolved deployment prerequisite; do not invent it. If port 5080 is occupied during the live smoke test, STOP.
 
 ## Exact files to read before editing
@@ -60,7 +60,7 @@ Both call exact relative paths `/api/rules/load` and `/api/reports/convert`. `lo
 
 - [ ] `rg -n "IReport|ICategory|ISubCategory|IExpense|<FileLoader|fetch\\(" src/my-budget-ui/src -g '*.ts' -g '*.tsx'`; list every renderer/type/FileLoader consumer and reopen the actual interfaces.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Bite-sized TDD steps
 
@@ -79,47 +79,40 @@ Hard stop: expected nonzero only at this red step; if it passes, STOP.
 
 - [ ] `npm --prefix src/my-budget-ui test -- reportApi.test.ts MonoReport.test.tsx`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] Confirm the focused Vitest output reports both new test files, nonzero executed tests, and zero skipped/failed tests.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-api-ui-contract.ps1`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Broader regression
 
 - [ ] `npm --prefix src/my-budget-ui test`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui run typecheck`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui run build`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.sln -v normal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `git diff --check`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
-
-## Commit/handoff
-
-Stage: `git add src/my-budget-ui/src/api src/my-budget-ui/src/pages/MonoReport src/my-budget-ui/vite.config.ts scripts/verify-api-ui-contract.ps1`
-
-Commit: `git commit -m "feat(ui): load rules and render converted reports"`
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ```text
 Plan: 05 UI API flow
-Commit/hash:
 Exact contract URLs/request bodies observed:
 UI test discovery/execution/pass counts:
 Live API smoke assertions/exit code:

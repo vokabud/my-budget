@@ -2,6 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans. Complete only this plan and stop for review.
 
+**Version-control rule:** The model must not create commits. Leave all changes uncommitted for the user to review and commit manually.
 **Goal:** Let `FileLoader` deliver a `File` to API workflows while preserving the rules editor's text-content workflow.
 
 **Architecture:** One component exposes a discriminated union so exactly one callback mode is selected. Both existing consumers remain type-safe.
@@ -12,7 +13,6 @@
 
 ## Prerequisites
 
-- Reviewed Plan 03 commit is HEAD; all backend gates pass.
 - Run commands from repository root unless command begins with `npm --prefix src/my-budget-ui`.
 
 ## Exact files to read before editing
@@ -47,7 +47,7 @@ No HTTP boundary changes. Input is browser `File`; output is either that identic
 
 - [ ] `rg -n "<FileLoader|onFileContent|onFileSelected" src/my-budget-ui/src -g '*.tsx' -g '*.ts'` and list both existing consumers.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] Reopen `FileLoader.tsx` and both consumers immediately before changing props.
 
@@ -65,35 +65,28 @@ Hard stop: expected nonzero only at this red step; if it passes, STOP and report
 
 - [ ] `npm --prefix src/my-budget-ui test -- FileLoader.test.tsx` — Vitest must report the file and at least four executed/passed tests.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Broader regression
 
 - [ ] `npm --prefix src/my-budget-ui test`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui run typecheck`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui run build`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `git diff --check`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
-
-## Commit/handoff
-
-Stage: `git add src/my-budget-ui/src/common/FileLoader src/my-budget-ui/src/pages/RulesConfiguration/RulesConfiguration.tsx`
-
-Commit: `git commit -m "refactor(ui): support file selection without breaking rules editor"`
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ```text
 Plan: 04 FileLoader
-Commit/hash:
 All consumers found/checked:
 Discovered/executed/passed UI tests:
 Production build exit code:

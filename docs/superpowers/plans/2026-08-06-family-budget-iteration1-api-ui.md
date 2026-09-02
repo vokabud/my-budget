@@ -2,13 +2,12 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+**Version-control rule:** The model must not create commits. Leave all changes uncommitted for the user to review and commit manually.
 **Goal:** Replace the manual console conversion step with a synchronous API flow that the UI uses to upload rules, upload CSV, and render the returned report.
 
 **Architecture:** Add a new ASP.NET Core API project that references the existing core library, keeps rules in process memory, and uses static MCC data. Update the React MonoReport page from local JSON loading to a two-step API flow: load rules first, then convert CSV and render report using existing components.
 
 **Tech Stack:** .NET SDK 10.0.400 / .NET 10 (ASP.NET Core Web API, xUnit 2.9.3), existing MyBudget.Core library, React 19.2.8, TypeScript 7.0.2, Vite 8.2.2, Vitest 4.1.11, MUI 9.4.0, multipart/form-data uploads.
-
-**Modernization baseline:** `main` commit `f4b5e6e` (`chore: Upgrade to .NET 10 LTS, React 19.2, Vite 8`). The iteration plan extends that commit and must not reintroduce .NET 8, Create React App, Jest CLI flags, or `react-scripts`.
 
 ## Global Constraints
 
@@ -91,13 +90,6 @@ public partial class Program;
 
 Run: `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj -v minimal`
 Expected: PASS for health endpoint.
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add src/my-budget-calculation/MyBudget.Api src/my-budget-calculation/MyBudget.sln README.md src/my-budget-calculation/MyBudget.Api.Tests
-git commit -m "feat(api): add web api project skeleton and solution wiring"
-```
 
 ### Task 2: Add Static MCC Provider and In-Memory Rules Store
 
@@ -190,13 +182,6 @@ And in `.csproj` include:
 Run: `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj -v minimal`
 Expected: PASS for added unit tests.
 
-- [ ] **Step 6: Commit**
-
-```bash
-git add src/my-budget-calculation/MyBudget.Api src/my-budget-calculation/MyBudget.Api.Tests
-git commit -m "feat(api): add static mcc provider and in-memory rules state store"
-```
-
 ### Task 3: Implement Rules Load Endpoint
 
 **Files:**
@@ -251,13 +236,6 @@ public class RulesController : ControllerBase
 
 Run: `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj -v minimal --filter "FullyQualifiedName~RulesControllerTests"`
 Expected: PASS.
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add src/my-budget-calculation/MyBudget.Api src/my-budget-calculation/MyBudget.Api.Tests
-git commit -m "feat(api): add rules load endpoint with validation and summary response"
-```
 
 ### Task 4: Implement Synchronous CSV Convert Endpoint
 
@@ -326,13 +304,6 @@ Handle:
 
 Run: `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj -v minimal --filter "FullyQualifiedName~ReportsControllerTests"`
 Expected: PASS.
-
-- [ ] **Step 6: Commit**
-
-```bash
-git add src/my-budget-calculation/MyBudget.Api src/my-budget-calculation/MyBudget.Api.Tests
-git commit -m "feat(api): add synchronous csv conversion endpoint"
-```
 
 ### Task 5: Update UI API Client and MonoReport Two-Step Flow
 
@@ -403,13 +374,6 @@ Expected: PASS for updated MonoReport tests.
 Run: `npm --prefix src/my-budget-ui run typecheck`
 Expected: PASS with no TypeScript errors.
 
-- [ ] **Step 6: Commit**
-
-```bash
-git add src/my-budget-ui/src/api src/my-budget-ui/src/pages/MonoReport src/my-budget-ui/src/common/FileLoader src/my-budget-ui/src/types.ts
-git commit -m "feat(ui): integrate rules upload and csv conversion api flow"
-```
-
 ### Task 6: Remove Console Project and Clean References
 
 **Files:**
@@ -447,13 +411,6 @@ Actions:
 
 Run: `Select-String -Path src/my-budget-calculation/MyBudget.sln -Pattern "MyBudget.Console"`
 Expected: no match.
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add -A
-git commit -m "refactor: remove console project and document api-first workflow"
-```
 
 ### Task 7: End-to-End Verification and Final Documentation Pass
 
@@ -497,13 +454,6 @@ Expected: SUCCESS.
 
 Run: `npm --prefix src/my-budget-ui run build`
 Expected: SUCCESS.
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add README.md docs/architecture-analysis.md src/my-budget-ui/README.md
-git commit -m "docs: finalize api-ui local workflow and verification notes"
-```
 
 ## Self-Review Results
 

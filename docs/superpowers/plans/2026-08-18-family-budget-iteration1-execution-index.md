@@ -2,13 +2,12 @@
 
 > **For agentic workers:** Execute exactly one linked plan in a fresh context, then stop for independent review.
 
-**Goal:** Replace the console conversion path with a tested API/UI path through six execution-safe commits.
+**Version-control rule:** The model must not create commits. Leave all changes uncommitted for the user to review and commit manually.
+**Goal:** Replace the console conversion path with a tested API/UI path through six independently reviewed execution plans.
 
 **Source specification:** `docs/superpowers/specs/2026-08-06-family-budget-api-ui-iteration1-design.md`
 
 **Source plan corrected by this split:** `docs/superpowers/plans/2026-08-06-family-budget-iteration1-api-ui.md`
-
-**Modernization baseline:** `main` commit `f4b5e6e` (`chore: Upgrade to .NET 10 LTS, React 19.2, Vite 8`). All six plans assume this commit is present.
 
 ## Repository facts and corrections
 
@@ -25,25 +24,25 @@
 
 ## Global execution rules
 
-1. Start from repository root `G:\Solutions\my-budget-2`, require baseline commit `f4b5e6e` in history, and preserve all pre-existing user-owned untracked files; stage only the exact paths named by the active plan.
-2. Before each plan, verify the prerequisite commit exists with `git log -1 --format=%s` and rerun every listed green command.
-3. The next plan must not start unless the previous commit exists, every gate passed, and an independent verifier reviewed that commit against its plan.
+1. Start from repository root `G:\Solutions\my-budget-2` and preserve all pre-existing user-owned untracked files.
+2. Before each plan, rerun every listed green command.
+3. The next plan must not start unless every gate passed and an independent verifier reviewed the previous plan's changes.
 4. Empty, skipped, placeholder, comment-only, or zero-discovered-test results fail the gate.
 5. Reopen every consumed interface from its repository source immediately before writing a call; do not rely on this index alone.
 6. After every verification command, apply this rule verbatim:
 
-> “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+> “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Exact order
 
-| Order | Plan | Prerequisite | Expected commit | Required green commands | Handoff |
-|---|---|---|---|---|---|
-| 01 | [API solution and test skeleton](2026-08-18-family-budget-iteration1-01-api-skeleton.md) | Clean baseline | `feat(api): add tested API solution skeleton` | API direct build/test; test discovery/count; `dotnet sln ... list`; solution build/test | `Program`, API/API-tests project membership, health route |
-| 02 | [Rules and MCC vertical slice](2026-08-18-family-budget-iteration1-02-rules-mcc.md) | 01 reviewed | `feat(api): load rules into memory with static MCC` | focused rules/MCC tests; API build; API tests; solution tests | rules store/provider and rules endpoint contract |
-| 03 | [Conversion and live HTTP flow](2026-08-18-family-budget-iteration1-03-conversion-integration.md) | 02 reviewed | `feat(api): convert uploaded CSV through live API flow` | focused conversion tests; real load+convert HTTP test; API build/tests; solution tests | canonical API contract and representative fixtures |
-| 04 | [Reusable file selection](2026-08-18-family-budget-iteration1-04-file-loader.md) | 03 reviewed | `refactor(ui): support file selection without breaking rules editor` | focused FileLoader tests; UI full tests/typecheck/build | compatible `FileLoaderProps` |
-| 05 | [UI API report flow](2026-08-18-family-budget-iteration1-05-ui-api-flow.md) | 04 reviewed | `feat(ui): load rules and render converted reports` | client/component tests; UI full tests/typecheck/build; live API contract script; solution tests | complete replacement UI/API path |
-| 06 | [Console cleanup and documentation](2026-08-18-family-budget-iteration1-06-cleanup.md) | 05 reviewed and replacement path green | `refactor: remove console and document API-first workflow` | absence checks; exact solution membership; all backend/UI/live-flow gates | final iteration-1 state |
+| Order | Plan | Prerequisite | Required green commands | Handoff |
+|---|---|---|---|---|
+| 01 | [API solution and test skeleton](2026-08-18-family-budget-iteration1-01-api-skeleton.md) | Clean baseline | API direct build/test; test discovery/count; `dotnet sln ... list`; solution build/test | `Program`, API/API-tests project membership, health route |
+| 02 | [Rules and MCC vertical slice](2026-08-18-family-budget-iteration1-02-rules-mcc.md) | 01 reviewed | focused rules/MCC tests; API build; API tests; solution tests | rules store/provider and rules endpoint contract |
+| 03 | [Conversion and live HTTP flow](2026-08-18-family-budget-iteration1-03-conversion-integration.md) | 02 reviewed | focused conversion tests; real load+convert HTTP test; API build/tests; solution tests | canonical API contract and representative fixtures |
+| 04 | [Reusable file selection](2026-08-18-family-budget-iteration1-04-file-loader.md) | 03 reviewed | focused FileLoader tests; UI full tests/typecheck/build | compatible `FileLoaderProps` |
+| 05 | [UI API report flow](2026-08-18-family-budget-iteration1-05-ui-api-flow.md) | 04 reviewed | client/component tests; UI full tests/typecheck/build; live API contract script; solution tests | complete replacement UI/API path |
+| 06 | [Console cleanup and documentation](2026-08-18-family-budget-iteration1-06-cleanup.md) | 05 reviewed and replacement path green | absence checks; exact solution membership; all backend/UI/live-flow gates | final iteration-1 state |
 
 ## Requirement-to-plan/test map
 
@@ -67,8 +66,6 @@
 ## Independent verifier report
 
 ```text
-Plan/commit reviewed:
-Commit hash and subject:
 Files inspected:
 Required commands rerun with exit codes and executed test counts:
 Contract/signature deviations:

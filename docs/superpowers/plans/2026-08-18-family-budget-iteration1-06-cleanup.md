@@ -2,6 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans. This cleanup is forbidden until Plans 01-05 are independently reviewed and the replacement path is fully green.
 
+**Version-control rule:** The model must not create commits. Leave all changes uncommitted for the user to review and commit manually.
 **Goal:** Remove the obsolete console project only after the API/UI replacement is proven, and document the exact local workflow.
 
 **Architecture:** This plan changes no runtime contract. It deletes the old adapter, removes its solution membership, and aligns documentation with the verified path.
@@ -12,7 +13,6 @@
 
 ## Exact prerequisites
 
-- HEAD is reviewed Plan 05 commit `feat(ui): load rules and render converted reports`.
 - Independent verifier reports for Plans 01-05 are APPROVE.
 - Immediately rerun and pass Plan 05 live contract, UI full tests/build, API direct tests, and solution tests before deleting anything.
 - If the replacement path is not fully green, STOP. Cleanup must not run.
@@ -46,29 +46,29 @@ No contract changes. Copy/link the canonical tables from Plans 03/05 accurately;
 
 - [ ] `rg -n "MyBudget.Console|Spectre.Console|new JsonReader|new JsonWriter|new BankReportReader|new ReportGenerator" . -g '!**/bin/**' -g '!**/obj/**' -g '!docs/superpowers/plans/2026-08-06-family-budget-iteration1-api-ui.md' -g '!docs/superpowers/plans/2026-08-18-family-budget-iteration1-*.md'` and record every code, solution, and documentation consumer.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Replacement-path hard gate before deletion
 
 - [ ] `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-api-ui-contract.ps1`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui test`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui run typecheck`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui run build`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.sln -v normal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Bite-sized TDD/cleanup steps
 
@@ -81,63 +81,56 @@ Hard stop: “If this command exits nonzero, STOP immediately. Do not continue t
 
 - [ ] `dotnet sln src/my-budget-calculation/MyBudget.sln list` — assert exactly four paths: `MyBudget.Api\MyBudget.Api.csproj`, `MyBudget.Api.Tests\MyBudget.Api.Tests.csproj`, `MyBudget.Core\MyBudget.Core.csproj`, `MyBudget.Core.Tests\MyBudget.Core.Tests.csproj`.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `powershell -NoProfile -Command "$hits = rg -n 'MyBudget.Console|Spectre.Console' src README.md docs/architecture-analysis.md src/my-budget-ui/README.md; if ($LASTEXITCODE -eq 0) { $hits; exit 1 }; if ($LASTEXITCODE -eq 1) { exit 0 }; exit $LASTEXITCODE"`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet build src/my-budget-calculation/MyBudget.Api/MyBudget.Api.csproj -v minimal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj --list-tests -v normal` and report discovered count.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj -v normal` and report executed/passed count.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Broader regression
 
 - [ ] `dotnet build src/my-budget-calculation/MyBudget.sln -c Release -v minimal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.sln -v normal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui test`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui run typecheck`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `npm --prefix src/my-budget-ui run build`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-api-ui-contract.ps1`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `git diff --check`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
-
-## Commit/handoff
-
-Stage: `git add -A src/my-budget-calculation/MyBudget.Console src/my-budget-calculation/MyBudget.sln README.md docs/architecture-analysis.md src/my-budget-ui/README.md`
-
-Commit: `git commit -m "refactor: remove console and document API-first workflow"`
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ```text
 Plan: 06 cleanup
-Commit/hash:
 Replacement pre-gate results:
 Deleted files:
 Final exact solution list:

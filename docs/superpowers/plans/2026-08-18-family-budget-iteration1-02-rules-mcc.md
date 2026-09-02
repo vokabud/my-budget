@@ -2,6 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans. Complete only this plan and stop for review.
 
+**Version-control rule:** The model must not create commits. Leave all changes uncommitted for the user to review and commit manually.
 **Goal:** Accept valid rules over HTTP, retain the latest rules in process memory, and load the repository's existing MCC catalog as backend content.
 
 **Architecture:** Singleton stores own process-lifetime state and immutable MCC data. A controller validates the complete rules graph before replacing state.
@@ -12,7 +13,6 @@
 
 ## Exact prerequisites
 
-- Reviewed Plan 01 commit `feat(api): add tested API solution skeleton` is HEAD; all Plan 01 gates rerun green.
 - The tracked source `src/my-budget-ui/src/pages/Mcc/mcc.json` exists and parses as a nonempty JSON array. It is the only repository MCC dataset.
 
 ## Exact files to read before editing
@@ -52,7 +52,7 @@ Paths above are under `src/my-budget-calculation/` unless otherwise stated.
 
 - [ ] Run `rg -n "Rules\\b|SubGroup\\b|mcc.json" src -g '*.cs' -g '*.ts' -g '*.tsx' -g '*.csproj'` and reconcile every result with the consumer list above.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] Reopen the Core model files and assert arrays vs lists and exact namespaces before writing code.
 
@@ -75,39 +75,32 @@ Hard stop: expected nonzero only for this red step; if it passes, STOP. Record m
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj --filter "FullyQualifiedName~RulesStateStoreTests|FullyQualifiedName~MccProviderTests|FullyQualifiedName~RulesEndpointTests" -v normal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet build src/my-budget-calculation/MyBudget.Api/MyBudget.Api.csproj -v minimal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj --list-tests -v normal` and report discovered count; it must include every non-skipped test above.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Broader regression commands
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj -v normal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.sln -v normal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `git diff --check`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
-
-## Commit gate, exact staging, and handoff
-
-Exact staging: `git add src/my-budget-calculation/MyBudget.Api src/my-budget-calculation/MyBudget.Api.Tests`
-
-Commit: `git commit -m "feat(api): load rules into memory with static MCC"`
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ```text
 Plan: 02 rules/MCC
-Commit/hash:
 Consumers found by rg:
 MCC source/copy item count and equality result:
 Commands/exit codes; discovered/executed/passed tests:

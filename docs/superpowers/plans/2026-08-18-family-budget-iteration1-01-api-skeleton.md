@@ -2,6 +2,7 @@
 
 > **For agentic workers:** Complete this plan only, one checkbox at a time, then stop for review.
 
+**Version-control rule:** The model must not create commits. Leave all changes uncommitted for the user to review and commit manually.
 **Goal:** Add solution-wired API and API-test projects with one real health endpoint test.
 
 **Architecture:** ASP.NET Core minimal hosting exposes health and controllers. `WebApplicationFactory<Program>` exercises the in-process HTTP boundary.
@@ -13,7 +14,6 @@
 ## Exact prerequisites
 
 - Run from `G:\Solutions\my-budget-2`.
-- Baseline commit `f4b5e6e` (`chore: Upgrade to .NET 10 LTS, React 19.2, Vite 8`) is present in history. Preserve every pre-existing untracked path and stage only the exact paths in this plan.
 
 ## Exact files to read before editing
 
@@ -53,11 +53,11 @@
 
 - [ ] Run `git status --short` and record pre-existing paths.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] Run `dotnet sln src/my-budget-calculation/MyBudget.sln list` and assert exactly the three current project paths from the index.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Bite-sized TDD steps
 
@@ -71,57 +71,44 @@ Hard stop: this command is expected nonzero only at this red step; if it passes,
 - [ ] Create `Program.cs` exactly with `AddControllers`, `MapControllers`, `MapGet("/api/health", () => Results.Ok(new { status = "ok" }))`, `app.Run()`, and global `public partial class Program;`. Create `appsettings.json` as `{}`.
 - [ ] Add both new projects: `dotnet sln src/my-budget-calculation/MyBudget.sln add src/my-budget-calculation/MyBudget.Api/MyBudget.Api.csproj src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj`.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Focused verification commands
 
 - [ ] `dotnet sln src/my-budget-calculation/MyBudget.sln list` — assert exact paths `MyBudget.Api\MyBudget.Api.csproj` and `MyBudget.Api.Tests\MyBudget.Api.Tests.csproj` appear.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet build src/my-budget-calculation/MyBudget.Api/MyBudget.Api.csproj -v minimal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj --list-tests -v normal` — report one discovered health test; zero fails.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.Api.Tests/MyBudget.Api.Tests.csproj -v normal` — report executed/passed count, at least 1.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Broader regression commands
 
 - [ ] `dotnet build src/my-budget-calculation/MyBudget.sln -v minimal`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `dotnet test src/my-budget-calculation/MyBudget.sln -v normal` — every listed test project must execute tests; a hang/failure in the existing absolute-path PDF test is a blocker, not permission to skip it.
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 - [ ] `git diff --check`
 
-Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, do not commit, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
-
-## Commit gate
-
-Do not commit unless direct API build, direct API tests, solution membership, solution build/tests, test discovery/count, and diff check all pass.
-
-Exact staging command:
-
-`git add src/my-budget-calculation/MyBudget.sln src/my-budget-calculation/MyBudget.Api src/my-budget-calculation/MyBudget.Api.Tests`
-
-One commit command:
-
-`git commit -m "feat(api): add tested API solution skeleton"`
+Hard stop: “If this command exits nonzero, STOP immediately. Do not continue to the next step, and do not modify unrelated files. Return the complete command, exit code, error output, changed files, and current git diff.”
 
 ## Handoff report format
 
 ```text
 Plan: 01 API skeleton
-Commit: <hash> feat(api): add tested API solution skeleton
 Files changed:
 Solution list (exact):
 Commands/exit codes:
