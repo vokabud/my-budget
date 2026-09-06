@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "taskId": "qwen-e2e-004",
+  "repository": "vokabud/my-budget",
+  "branch": "ai/qwen-e2e-004",
+  "commit": "0b08d5b57274f8a333570e5c28eb0e7189253514",
+  "pullRequest": "https://github.com/vokabud/my-budget/pull/3",
+  "model": "ollama/qwen3.8:27b-64k",
+  "metrics": {
+    "durationMs": 2075810,
+    "peakContextTokens": 34158,
+    "inputTokens": 34242,
+    "outputTokens": 5122,
+    "llmRequests": 22
+  }
+}
