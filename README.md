@@ -13,6 +13,8 @@ Parse Monobank expense reports and view categorized expenses in CLI and web inte
 - `MyBudget.Console` - CLI entry point for selecting input files and generating a JSON report.
 - `MyBudget.Core` - domain models and processing tools (CSV import, rules processing, report generation, JSON read/write, PDF parser experiments).
 - `MyBudget.Core.Tests` - xUnit tests for core behavior.
+- `MyBudget.Api` - ASP.NET Core Web API host (references `MyBudget.Core`).
+- `MyBudget.Api.Tests` - xUnit tests for the API (smoke tests via WebApplicationFactory).
 
 ## Console Workflow
 
